@@ -1,32 +1,32 @@
 const express = require('express')
-const app = express()
-
-// mongoose
+const cors = require('cors')
 const mongoose = require('mongoose')
 
-//dotenv
-require('dotenv/config')
+require('dotenv').config()
 
-//body parser
-const bodyParser = require('body-parser')
-app.use(bodyParser.json())
+const app = express()
+const port = process.env.PORT || 5000
+const uri = process.env.DB_CONNECTION
 
-// Import Routes
+// middlewares
+app.use(cors())
+app.use(express.json())
+
+// Routes
 const userRoute = require('./routes/user/user.route')
 const presupuestoRoute = require('./routes/presupuesto/presupuesto.route')
-
 app.use('/user', userRoute)
-
 app.use('/presupuesto', presupuestoRoute)
 
-app.get('/', (req,res) => {
-    res.send('asd')
-})
-
-
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-    console.log('connected to DB')
-})
+mongoose.connect(
+	uri,
+	{ useNewUrlParser: true, useUnifiedTopology: true },
+	() => {
+		console.log('Connected to DB')
+	}
+)
 
-app.listen(5000)
+app.listen(port, () => {
+	console.log('Server is running')
+})

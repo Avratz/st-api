@@ -1,22 +1,18 @@
 const mongoose = require('mongoose')
 
-const presupuestoSchema = mongoose.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: Number,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    }
-})
+const Schema = mongoose.Schema
 
-module.exports = mongoose.model('Presupuesto', presupuestoSchema)
+const presupuestoSchema = new Schema(
+	{
+		title: {
+			type: String,
+			required: true
+		}
+	},
+	{
+		timestamps: true
+	}
+)
+const Presupuesto = mongoose.model('Presupuesto', presupuestoSchema)
+
+module.exports = Presupuesto
